@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>3 ダイス・ダンジョン: ダンジョン探索ソリティアゲーム</title>
+	<style>
+	p {
+		text-align:justify;
+		text-indent:0em;
+	}
+	span.underline {
+		text-decoration:underline;
+	}
+	h2 {
+		margin-bottom:0em;
+	}
+	div.contents {
+		width:80%;
+		margin-left:auto;
+		margin-right:auto;
+	}
+	.break {
+		break-after:always;
+		page-break-after:always;
+	}
+	ul.credit p {
+		margin-top:0em;
+		margin-bottom:0em;
+		font-style:italic;
+		text-indent:0em;
+	}
+	p.credit {
+		margin-top:0em;
+		margin-bottom:0em;
+	}
+	table.map {
+		border: solid 1px black;
+		width:100%;
+		border-spacing: 0;
+		border-collapse: separate;
+	}
+	table.map th {
+		border: solid 1px black;
+		background-color:lightgray;
+		font-weight:bold;
+		padding:0.4em;
+		text-align:center;
+	}
+	table.map td {
+		border: solid 1px black;
+		padding:0.4em;
+	}
+	table.map td:nth-child(1), table.map td:nth-child(3) {
+		text-align:center;
+	}
+	table.artifact {
+		border: solid 1px black;
+		width:100%;
+		border-spacing: 0;
+		border-collapse: separate;
+	}
+	table.artifact th {
+		border: solid 1px black;
+		background-color:lightgray;
+		font-weight:bold;
+		padding:0.4em;
+		text-align:center;
+	}
+	table.artifact td {
+		border: solid 1px black;
+		padding:0.4em;
+	}
+	table.artifact td:nth-child(1) {
+		width:4em;
+		text-align:center;
+	}
+	table.undied {
+		border: solid 1px black;
+		border-spacing: 0;
+		border-collapse: separate;
+		border-radius: 6px;
+	}
+	table.undied th {
+		border: solid 1px black;
+		background-color:lightgray;
+		font-weight:bold;
+		padding:0.4em;
+		text-align:center;
+	}
+	table.undied td {
+		border: solid 1px black;
+		padding:0.4em;
+	}
+	table.undied td:nth-child(1), table.undied td:nth-child(3) {
+		width:4em;
+		text-align:center;
+	}
+	</style>
+</head>
+<body>
+	<div class="contents">
+		<h1>3 ダイス・ダンジョン: ダンジョン探索ソリティアゲーム</h1>
+		<h2>クレジット</h2>
+		<ul class="credit">
+			<li>
+				<p>RPG ソリティア・チャレンジ: 3 ダイス</p>
+				<p>2011年1月2日 ロビン・V・ステイシー (別名グレイウルフ) 著</p>
+				<p><a href="https://web.archive.org/web/20111012030059/http://greywulf.net/2011/01/rpg-solitaire-challenge-3-dice/">https://web.archive.org/web/20111012030059/http://greywulf.net/2011/01/rpg-solitaire-challenge-3-dice/</a></p>
+			</li>
+			<li>
+				<p>3 ダイス・ダンジョン</p>
+				<p>2011/12/29 ブレント・P・ニューホール著</p>
+				<p><a href="http://rpg.brentnewhall.com/2011/12/3-dice-dungeon-a-solitaire-dungeon-crawl-game/">http://rpg.brentnewhall.com/2011/12/3-dice-dungeon-a-solitaire-dungeon-crawl-game/</a></p>
+			</li>
+		</ul>
+
+		<h2>はじめに</h2>
+		<p>ほぼ 1 年前、ロビン・V・ステイシー (別名グレイウルフ) は、ダンジョン探索のシンプルなソリティア ゲームである “RPG ソリティア・チャレンジ: 3 ダイス” を投稿しました。彼のゲームでは、冒険者のステータスを得るために 3 つのサイコロを振ってから、ダンジョン内の各ロケーションについて、ロケーションのタイプを決定するために 1 つのサイコロを振り、モンスターに 1 つ、財宝に 1 つのサイコロを振ります。</p>
+		<p>ゲームを数回プレイしましたが、楽しかった一方で、2 つの大きな問題があることに気づきました。</p>
+		<ol>
+		<li>ゲームには非常にブレがあります。プレイしたゲームの中には、モンスターに2 回遭遇するまでに PC が死んでしまうものもあれば、永遠にプレイし続けられるラウンドもありました。</li>
+		<li>モンスターと殴り合うこと以外に何もすることがありません。</li>
+		</ol>
+		<p>しかし、マップには魅力的な可能性があります。それでは、デザインを追加してダンジョンを描いてみましょう。</p>
+
+		<h2>3 ダイス・ダンジョンとは</h2>
+		<p class="credit">3 ダイス・ダンジョンは、“<span class="underline">RPG ソリティア・チャレンジ: 3 ダイス</span>” のルールを拡張したものです。</p>
+		<p class="credit">&lt;<a href="https://web.archive.org/web/20111012030059/http://greywulf.net/2011/01/rpg-solitaire-challenge-3-dice/">https://web.archive.org/web/20111012030059/http://greywulf.net/2011/01/rpg-solitaire-challenge-3-dice/</a>&gt;</p>
+		<h2>用意するもの</h2>
+		<ul>
+			<li>このルールブック</li>
+			<li>紙 (方眼タイプだとマップを描きやすい)</li>
+			<li>ペンなどの筆記用具</li>
+			<li>ダイス 3 個 (3 個なければ 1 個でもプレイ可能です)</li>
+		</ul>
+
+		<h2>キャラクターの作成</h2>
+		<p>1d6 を順番にロールして、BODY、MIND、SPIRIT の属性値を決めます (これら 3 つの属性値がいわゆる HP になります)。これらの出目は各属性の現在ポイントの初期値、かつ最大値になります。これで冒険の準備が整いました。</p>
+		<ul>
+			<li>BODY はあなたの身体的能力を表します。BODY 1 (子供または虚弱児) または 6 (筋肉質!) の範囲です。</li>
+			<li>MIND はあなたの知性とありのままの狡猾さです。MIND 1 (愚か者) から MIND 6 (天才または特に狡猾な悪党) までの範囲です。</li>
+			<li>SPIRIT はあなたの魔法の才能です。SPIRIT 1 は才能をほとんど、またはまったく示しませんが、SPIRIT 6 は長年にわたる魔法の訓練と不可解な世界に対する驚くべき自然な認識を反映しています。</li>
+		</ul>
+
+		<h2>ダンジョンマップの作成</h2>
+		<p>ロケーション、モンスター、財宝の種類を決めるために 3d6 を振り、3 つの出目のうちの 1 つをロケーション、モンスター、財宝に割り振り、以下の表を参照してダンジョンマップを作成していきます。出目の値はモンスターの HP の初期値を兼ねます (ゴブリン=1、ドラゴン=5)。</p>
+		<table class="map">
+		<tbody>
+			<tr>
+				<th>出目</th>
+				<th>ロケーション</th>
+				<th>出口の数</th>
+				<th>モンスター</th>
+				<th>財宝</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>廊下 (直線または曲線)</td>
+				<td>2</td>
+				<td>ゴブリン</td>
+				<td>なし</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>小部屋</td>
+				<td>1d2</td>
+				<td>オーク</td>
+				<td>治癒ポーション</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>大部屋</td>
+				<td>1d3</td>
+				<td>オーガ</td>
+				<td>魔法の剣</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>倉庫</td>
+				<td>1d3</td>
+				<td>ジャイアンツ</td>
+				<td>啓蒙の書</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>神殿</td>
+				<td>1d3</td>
+				<td>ドラゴン</td>
+				<td>呪文の巻物</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>大広間</td>
+				<td>1d3+1</td>
+				<td>なし</td>
+				<td>地図の断片</td>
+			</tr>
+		</tbody>
+		</table>
+		<p><em>マッピング:</em> このロケーションを紙に描きます。各ロケーションはマップ全体でほぼ同じスペースを占め、東西南北に出口を持つことができます。出口は合理的にマークする必要があります。出口は、隣接する部屋の出口につながっていないと、設置することができません。それ以外の場合、出口はどこにでも設置できます。</p>
+		<p class="break"><em>出口はいくつありますか？</em>各部屋の出口の数には、入ってきた部屋に隣接する出口も含まれているため、部屋が行き止まりになっている場合もあります。</p>
+		<h2>戦闘</h2>
+		<!--
+		Attacking: If the room contains a monster, you must attack it! Pick an attribute and roll a die. If you roll less than the attribute, you hit! Turn the monster’s die so that it shows one point lower. When you hit a monster that’s at 1, it is defeated. If you roll equal to or greater than the attribute, the monster hits you; decrease the attribute chosen for this attack by 1.
+		-->
+		<p><em>攻撃:</em> 部屋にモンスターがいる場合は、モンスターを必ず攻撃しなければなりません。BODY 、MIND、SPIRITEの 3 つの属性から 1 つを選択し、1d6 を振ります。属性値未満のロールを出せばモンスターに攻撃がヒット！次にそのモンスターのダイスを、1 ポイント低くするためにロールします。1 のモンスターに当たるとモンスターは倒されます。属性値以上のロールを出すとモンスターの攻撃があなたにヒットします。モンスターの攻撃があなたにヒットすると、この攻撃に選択した属性の値を 1 つ減らします。</p>
+		<!--
+		Bleeding Out: If an attribute is reduced to 0, you take -1 on all attack rolls. If all three attributes are reduced to 0, you’re dead.
+		-->
+		<p><em>出血する:</em> 1 つの属性の値が 0 になった場合、あなたはすべての攻撃ロールを -1 します。3 つの属性がすべて 0 になると死亡します。</p>
+		<p><em>クリティカル:</em> 攻撃時、1 は必ず攻撃がモンスターに命中し、6 は必ず攻撃が外れます。</p>
+		<!--
+		Training Wheels: In your first location, if you roll 4 or 5 for the monster, re-roll (multiple times if necessary). In your second location, re-roll any 5’s for the monster.
+		-->
+		<p><em>教習車:</em> 最初のロケーションで、モンスターのロールが 4 または 5 の場合、ロールをやり直します (必要に応じて複数回)。2 番目のロケーションで、モンスターの 5 を再ロールします。</p>
+
+		<h2>財宝</h2>
+		<p>部屋のモンスターを倒すと、その部屋の財宝が手に入ります。</p>
+		<ul>
+			<li>地図の断片 — 倉庫にいるときは、地図の断片を使い切って強力なアーティファクトを発掘することができます (下記を参照)。</li>
+			<li>治癒ポーション — 1 つの属性を 2 ポイント、または 2 つの属性をそれぞれ 1 ポイントずつ、それぞれの最大値を超えない範囲で増加させます。</li>
+			<li>魔法の剣 — すべての BODY ロールに +1。これは累積されるため、魔法の剣を 2 つ持っている場合は、すべての BODY ロールに +2 が追加されます。</li>
+			<li>啓蒙の書 — すべての MIND ロールに +1。これも魔法の剣と同様に累積します。</li>
+			<li>呪文の巻物 — この巻物を使用すると、1 つの SPIRIT ロールで +3 が得られます。巻物は一度使用すると消えます。</li>
+		</ul>
+
+		<h2>XP (経験値)</h2>
+		<!--
+		When you defeat a monster (or if there is no monster in the room), total the value of all three dice rolled for the location (room, monster, and treasure). Add this to your XP total.
+		-->
+		<p>モンスターを倒したとき（または部屋にモンスターがいない場合）、そのロケーション (部屋、モンスター、財宝) に対して振られた 3d6 の値すべてを合計します。これを XP の合計に追加します。</p>
+		<!--
+		Leveling Up: For every 50 XP you earn, increase the maximum of one attribute, and return all your attributes to their maximum values.
+		-->
+		<p class="break"><em>レベルアップ:</em> 獲得する XP が 50 ごとに、1 つの属性の最大値が増加し、すべての属性が最大値に戻ります。</p>
+
+		<h2>マップ内を移動する</h2>
+		<!--
+		Returning to Danger: When you return to a room you’ve already visited, you run the risk of encountering a low-level monster who’s sneaked into the room. Roll a die for a roving monster. If you roll 3–6, there’s no monster.
+		-->
+		<p><em>危険な場所へ戻る:</em> 一度訪れた部屋に戻ると、その部屋に忍び込んでいる低レベルのモンスターに遭遇する危険があります。サイコロを振って放浪モンスターがいないか調べます。3 ～ 6 の目が出た場合、モンスターは存在しません。</p>
+		<!--
+		Temple Teleportation: From a temple, you can teleport to any other temple already on the map. When you do, roll for a roving monster. You may only teleport after defeating any monsters in the room.
+		-->
+		<p><em>寺院のテレポート:</em> 寺院から、すでにマップ上にある他の寺院にテレポートできます。そうしたら、サイコロを振って放浪モンスターがいないか調べます。3 ～ 6 の目が出た場合、モンスターは存在しません。テレポートできるのは、部屋内のモンスターを倒した後でのみです。</p>
+		<!--
+		Descending To The Next Level: You may only descend to the next level of the dungeon from a Great Hall, and only after you have collected one artifact on this level.
+		-->
+		<p><em>次のレベルのダンジョンへの降下:</em> 大広間からダンジョンの次のレベルに降下できるのは、このレベルでアーティファクトを 1 つ収集した場合のみです。</p>
+
+		<h2>アーティファクト</h2>
+		<p>1d6 を振ってアーティファクトを見つけます。</p>
+		<table class="artifact">
+		<tbody>
+			<tr>
+				<th>出目</th>
+				<th>アーティファクト</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>翡翠の象 (攻撃ロールに +2)</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>クリスタルペンダント (MIND ロール1つにつき +3)</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<!--
+				Boots of Swiftness (run from one fight per player level into a random adjacent room, with no penalty)
+				-->
+				<td>素早さのブーツ (プレイヤーレベルごとに 1 回の戦闘からランダムな隣接する部屋にペナルティなしで移動します)</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<!--
+				Scroll of Teleportation (after clearing a room, teleport to any other explored room; use once)
+				-->
+				<td>テレポートの巻物 (部屋をクリアした後、探索した他の部屋にテレポートします。1 回使用します)</td>
+			</tr>
+			<tr>
+				<td>5</td>
+			<!--
+			Sleeping Salts (cause one monster to sleep; no XP for the monster, and when this room is next visited, it is awake again)
+				-->
+				<td>スリーピングソルト (モンスター 1 匹を眠らせます。モンスターには XP はありません。次にこの部屋を訪れると再び目覚めます)</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>シールドチャーム (自分に対する攻撃を 1 回無視)</td>
+			</tr>
+		</tbody>
+		</table>
+
+		<h2>複数プレイヤー</h2>
+		<p>他のプレイヤーとプレイするには、各プレイヤーが自分のステータスをロールします。各ロケーションで、プレイヤーごとに 1 つのモンスターダイスをロールします。最も高いモンスターのダイスによって、部屋内のモンスターの種類が決まります。モンスターのヒットポイントのために振られたすべてのモンスターダイスを合計します。</p>
+		<p>各プレイヤーは、各ロケーションの XP の合計を獲得します (つまり、ある場所が 10 XP を提供する場合、各プレイヤーは 10 XP を得ます)。</p>
+		<p class="break">報酬を共有する必要があるため、複数のプレーヤーでプレイするのはより困難であることに注意してください。</p>
+
+		<h2>アンデッドレベル</h2>
+		<p>最後に、ちょっとした楽しみのために、アンデッドをテーマにしたレベルを以下に示します。</p>
+		<table class="undied">
+		<tbody>
+			<tr>
+				<th>結果</th>
+				<th>ロケーション</th>
+				<th>出口の数</th>
+				<th>モンスター</th>
+				<th>財宝</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>廊下 (直線または曲線)</td>
+				<td>2</td>
+				<td>スケルトン</td>
+				<td>地図の断片</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>小部屋</td>
+				<td>1d2</td>
+				<td>ゾンビ</td>
+				<td>治癒ポーション</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>大部屋</td>
+				<td>1d3</td>
+				<td>ミイラ</td>
+				<td>魔法の剣</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>地下室</td>
+				<td>1d3</td>
+				<td>吸血鬼</td>
+				<td>啓蒙の書</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>神殿</td>
+				<td>1d3</td>
+				<td>リッチ</td>
+				<td>呪文の巻物</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>大ホール</td>
+				<td>1d3+1</td>
+				<td>なし</td>
+				<td>なし</td>
+			</tr>
+		</tbody>
+		</table>
+		<p>地下室ですか？地下室は倉庫と同じように機能します。</p>
+		<p><em>アンデッドは魔法に弱い:</em> アンデッドに対する SPIRIT 攻撃は、6 では自動的に失敗しません。</p>
+		<p>以上です！3 ダイス・ダンジョンをプレイした方はぜひコメント欄で教えてください！</p>
+	</div>
+</body>
+</html>
+
